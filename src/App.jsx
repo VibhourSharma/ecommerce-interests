@@ -13,10 +13,10 @@ import VerifyOtp from "./components/VerifyOtp";
 function App() {
   return (
     <BrowserRouter>
+      <Toaster richColors position="top-right" />
       <MiniNav />
       <Navbar />
       <InfoNav />
-      <Toaster richColors position="top-right" />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
