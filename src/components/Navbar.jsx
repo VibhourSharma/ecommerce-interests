@@ -1,7 +1,15 @@
+import { useNavigate } from "react-router-dom";
+
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <nav className="flex justify-between items-center p-4 px-8">
-      <div className="text-4xl font-bold">ECOMMERCE</div>
+      <span
+        className="text-4xl font-bold cursor-pointer"
+        onClick={() => navigate("/")}
+      >
+        ECOMMERCE
+      </span>
       <div className="font-[600] flex gap-12 items-center justify-center">
         <span>Categories</span>
         <span>Sale</span>
