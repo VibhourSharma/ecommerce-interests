@@ -1,4 +1,4 @@
-
+[![wakatime](https://wakatime.com/badge/user/018e866f-d1d0-4ab4-9f15-078cc30ae802/project/018e8674-5e0c-4248-ae55-2ca50fb3a792.svg)](https://wakatime.com/badge/user/018e866f-d1d0-4ab4-9f15-078cc30ae802/project/018e8674-5e0c-4248-ae55-2ca50fb3a792)
 ![Screenshot 2024-03-30 010621](https://github.com/VibhourSharma/ecommerce-interests/assets/110191186/6d8e4242-c65e-48e4-af98-65ca43e0cfd7)
 
 ## Project Overview
