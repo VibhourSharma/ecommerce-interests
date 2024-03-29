@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import ReactPaginate from "react-paginate";
 import categoriesData from "../Data";
 const itemsPerPage = 6;
@@ -23,6 +23,22 @@ const Interests = () => {
     }
   };
 
+  const memoizedCategories = useMemo(() => {
+    return categories.slice(
+      currentPage * itemsPerPage,
+      currentPage * itemsPerPage + itemsPerPage
+    );
+  }, [categories, currentPage]);
+
+  useEffect(() => {
+    const savedInterests = JSON.parse(
+      localStorage.getItem("selectedInterests")
+    );
+    if (savedInterests && savedInterests.length > 0) {
+      setSelectedInterests(savedInterests);
+    }
+  }, []);
+
   useEffect(() => {
     localStorage.setItem(
       "selectedInterests",
@@ -38,26 +54,21 @@ const Interests = () => {
         <form className="flex flex-col mt-10 w-[90%]">
           <p className="text-sm font-[600] mb-2">My Saved Interests!</p>
           <div className="flex flex-col">
-            {categories
-              .slice(
-                currentPage * itemsPerPage,
-                currentPage * itemsPerPage + itemsPerPage
-              )
-              .map((category, index) => (
-                <label
-                  key={category.id}
-                  className="font-[400] text-[16px] py-2 flex gap-4 items-center justify-start"
-                >
-                  <input
-                    type="checkbox"
-                    value={category.name}
-                    className="custom-checkbox"
-                    checked={selectedInterests.includes(category.name)}
-                    onChange={handleCheckboxChange}
-                  />
-                  {category.name}
-                </label>
-              ))}
+            {memoizedCategories.map((category) => (
+              <label
+                key={category.id}
+                className="font-[400] text-[16px] py-2 flex gap-4 items-center justify-start cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  value={category.name}
+                  className="custom-checkbox"
+                  checked={selectedInterests.includes(category.name)}
+                  onChange={handleCheckboxChange}
+                />
+                {category.name}
+              </label>
+            ))}
           </div>
         </form>
         {categories.length > itemsPerPage && (
