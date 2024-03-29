@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import MiniNav from "./components/MiniNav";
 import Navbar from "./components/Navbar";
 import SignUp from "./components/SignUp";
+import { Toaster } from "sonner";
 import VerifyOtp from "./components/VerifyOtp";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <MiniNav />
       <Navbar />
       <InfoNav />
+      <Toaster richColors position="top-right" />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />

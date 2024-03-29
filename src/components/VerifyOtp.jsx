@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const VerifyOtp = () => {
   const [otp, setOTP] = useState(["", "", "", "", "", ""]);
@@ -30,8 +31,7 @@ const VerifyOtp = () => {
     const isOTPComplete = otp.every((digit) => digit !== "");
     if (isOTPComplete) {
       navigate("/interests");
-    } else {
-      alert("Please fill in all the OTP digits.");
+      toast.success("Logged in Succesfully");
     }
   };
 

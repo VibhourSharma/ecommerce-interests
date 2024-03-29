@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,20 +18,19 @@ const Login = () => {
     const updatedErrors = { emailError: "", passwordError: "" };
 
     if (!validateEmail(email)) {
-      updatedErrors.emailError = "Please enter a valid email address";
+      updatedErrors.emailError = "Enter a valid email address";
     }
 
     if (password.length < 6) {
-      updatedErrors.passwordError =
-        "Password must be at least 6 characters long";
+      updatedErrors.passwordError = "Enter a valid Password";
     }
 
     if (updatedErrors.emailError || updatedErrors.passwordError) {
       setErrors(updatedErrors);
       return;
     }
-
     navigate("/interests");
+    toast.success("Logged in Succesfully");
   };
 
   return (

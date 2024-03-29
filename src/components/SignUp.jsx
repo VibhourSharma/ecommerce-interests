@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
 
@@ -39,6 +40,9 @@ const SignUp = () => {
       }
     } else {
       navigate("/verify-otp");
+      toast.info("Use any 6 random numbers to verify", {
+        duration: 6000,
+      });
     }
 
     setErrors(updatedErrors);
