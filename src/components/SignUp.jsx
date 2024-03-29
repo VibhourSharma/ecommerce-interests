@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-
-const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
+import { validateEmail } from "../utils";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -10,13 +9,16 @@ const SignUp = () => {
     email: "",
     password: "",
   });
+
   const [errors, setErrors] = useState({
     nameError: "",
     emailError: "",
     passwordError: "",
   });
-  const navigate = useNavigate();
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
@@ -25,7 +27,7 @@ const SignUp = () => {
     event.preventDefault();
     const updatedErrors = { nameError: "", emailError: "", passwordError: "" };
     const isEmptyName = !formData.name.trim();
-    const isInvalidEmail = !EMAIL_REGEX.test(formData.email);
+    const isInvalidEmail = !validateEmail(formData.email);
     const isShortPassword = formData.password.length < 6;
 
     if (isEmptyName || isInvalidEmail || isShortPassword) {
@@ -44,8 +46,11 @@ const SignUp = () => {
         duration: 6000,
       });
     }
-
     setErrors(updatedErrors);
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -59,7 +64,7 @@ const SignUp = () => {
           <input
             type="text"
             name="name"
-            placeholder="enter name"
+            placeholder="Enter name"
             value={formData.name}
             onChange={handleChange}
             className="p-2 rounded-lg my-2 border outline-none focus:border-black transition-all"
@@ -73,7 +78,7 @@ const SignUp = () => {
           <input
             type="email"
             name="email"
-            placeholder="enter email"
+            placeholder="Enter email"
             value={formData.email}
             onChange={handleChange}
             className="p-2 rounded-lg my-2 border outline-none focus:border-black transition-all"
@@ -84,14 +89,22 @@ const SignUp = () => {
           <label htmlFor="password" className="font-medium mt-4">
             Password
           </label>
-          <input
-            type="password"
-            name="password"
-            placeholder="enter password"
-            value={formData.password}
-            onChange={handleChange}
-            className="p-2 rounded-lg my-2 border outline-none focus:border-black transition-all"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Enter password"
+              value={formData.password}
+              onChange={handleChange}
+              className="p-2 rounded-lg my-2 border outline-none focus:border-black transition-all w-full"
+            />
+            <span
+              className="absolute right-3 top-5 cursor-pointer text-black underline text-sm"
+              onClick={toggleShowPassword}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </span>
+          </div>
           {errors.passwordError && (
             <p className="text-red-500 text-xs">{errors.passwordError}</p>
           )}

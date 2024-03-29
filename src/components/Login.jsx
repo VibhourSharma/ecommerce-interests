@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { validateEmail } from "../utils";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ emailError: "", passwordError: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,6 +30,10 @@ const Login = () => {
     toast.success("Logged in Succesfully");
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="w-full flex items-center justify-center">
       <div className="border-2 flex items-center justify-center flex-col mt-6 p-8 w-[33%] rounded-2xl">
@@ -45,7 +46,7 @@ const Login = () => {
           </label>
           <input
             type="email"
-            placeholder="enter email"
+            placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="p-2 rounded-lg my-2 border outline-none focus:border-black transition-all"
@@ -56,13 +57,21 @@ const Login = () => {
           <label htmlFor="password" className="font-medium mt-4">
             Password
           </label>
-          <input
-            type="password"
-            placeholder="enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="p-2 rounded-lg my-2 border outline-none focus:border-black transition-all"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="p-2 w-full rounded-lg my-2 border outline-none focus:border-black transition-all"
+            />
+            <span
+              className="absolute right-3 top-5 cursor-pointer text-black underline text-sm"
+              onClick={toggleShowPassword}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </span>
+          </div>
           {errors.passwordError && (
             <span className="text-red-500 text-xs">{errors.passwordError}</span>
           )}
