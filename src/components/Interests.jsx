@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import categoriesData from "../Data";
 
 const Interests = () => {
   const [page, setPage] = useState(1);
   const [selectedInterests, setSelectedInterests] = useState([]);
   const categories = categoriesData.categories;
+
+  useEffect(() => {
+    const savedInterests = JSON.parse(
+      localStorage.getItem("selectedInterests")
+    );
+    if (savedInterests && savedInterests.length > 0) {
+      setSelectedInterests(savedInterests);
+    }
+  }, []);
 
   const selectPageHandler = (selectedPage) => {
     if (
@@ -25,6 +34,13 @@ const Interests = () => {
       );
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem(
+      "selectedInterests",
+      JSON.stringify(selectedInterests)
+    );
+  }, [selectedInterests]);
 
   return (
     <div className="w-full flex items-center justify-center">
