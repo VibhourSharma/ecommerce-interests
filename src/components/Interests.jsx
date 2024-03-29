@@ -1,27 +1,15 @@
 import React, { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
 import categoriesData from "../Data";
+const itemsPerPage = 6;
 
 const Interests = () => {
-  const [page, setPage] = useState(1);
   const [selectedInterests, setSelectedInterests] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const categories = categoriesData.categories;
 
-  useEffect(() => {
-    const savedInterests = JSON.parse(
-      localStorage.getItem("selectedInterests")
-    );
-    if (savedInterests && savedInterests.length > 0) {
-      setSelectedInterests(savedInterests);
-    }
-  }, []);
-
-  const selectPageHandler = (selectedPage) => {
-    if (
-      selectedPage >= 1 &&
-      selectedPage <= categories.length / 6 &&
-      selectedPage !== page
-    )
-      setPage(selectedPage);
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
   };
 
   const handleCheckboxChange = (event) => {
@@ -47,11 +35,15 @@ const Interests = () => {
       <div className="border-2 flex items-center justify-center flex-col mt-6 p-8 w-[35%] rounded-2xl">
         <div className="font-[600] text-2xl">Please mark your interests!</div>
         <span className="text-sm mt-2">We will keep you notified.</span>
-        <form onSubmit="" className="flex flex-col mt-10 w-[90%]">
+        <form className="flex flex-col mt-10 w-[90%]">
           <p className="text-sm font-[600] mb-2">My Saved Interests!</p>
           <div className="flex flex-col">
-            {categories.slice(page * 6 - 6, page * 6).map((category, index) => {
-              return (
+            {categories
+              .slice(
+                currentPage * itemsPerPage,
+                currentPage * itemsPerPage + itemsPerPage
+              )
+              .map((category, index) => (
                 <label
                   key={category.id}
                   className="font-[400] text-[16px] py-2 flex gap-4 items-center justify-start"
@@ -65,28 +57,26 @@ const Interests = () => {
                   />
                   {category.name}
                 </label>
-              );
-            })}
+              ))}
           </div>
-          {categories.length > 0 && (
-            <div className="mt-12">
-              <span onClick={() => selectPageHandler(page - 1)}>←</span>
-              {[...Array(categories.length / 6)].map((_, i) => {
-                return (
-                  <span
-                    key={i}
-                    className="cursor-pointer"
-                    onClick={() => selectPageHandler(i + 1)}
-                  >
-                    {i + 1}
-                  </span>
-                );
-              })}
-
-              <span onClick={() => selectPageHandler(page + 1)}>→</span>
-            </div>
-          )}
         </form>
+        {categories.length > itemsPerPage && (
+          <div className="flex w-[90%] mt-6 p-2">
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel=">>"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              pageCount={Math.ceil(categories.length / itemsPerPage)}
+              previousLabel="<<"
+              renderOnZeroPageCount={null}
+              containerClassName="pagination"
+              activeClassName="bg-gray-300 w-8 rounded-lg text-center"
+              className="flex gap-2 text-sm"
+              disabledClassName="opacity-50 cursor-not-allowed"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
