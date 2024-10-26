@@ -3,7 +3,7 @@
 
 ## Project Overview
 
-Welcome to my GitHub repository! Here, I've taken on roc8's moonshot test, using React and Tailwind CSS, crafting a user-centric application with several key features:
+Welcome to my GitHub repository! Here, I've taken the challenge, using React and Tailwind CSS, crafting a user-centric application with several key features:
 
 ## Features:
 - **User Authentication**: 
